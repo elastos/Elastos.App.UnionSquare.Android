@@ -42,7 +42,8 @@ public class WalletNet {
     public static final String TESTURL = "https://123.207.167.100:442";
     public static final String REGTESTURL = "http://118.89.242.158";
     //  public static final String PRVURL = "http://node.longrunweather.com:18080";
-    public static final String PRVURL = "http://crapi.longrunweather.com:18080";
+    public static final String PRVURL = "http://cen.longrunweather.com:18080";
+
 
 
     //did resolve网址
