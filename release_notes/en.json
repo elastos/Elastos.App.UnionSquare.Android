@@ -58,7 +58,7 @@
   "text53":"-CR member candidates need to create DID, add avatar information, personal profile and other election related information to personal credentials, and publish all election related information through \"Update DID Information\";",
   "text54":"-After CR council candidates create Elastos DID, they need to complete the binding with DID through \"Update Registration Information\".",
   "text55":"-Please back up your wallet before you perform the upgrading.",
-  
+
   "text56":"June 5 , 2020",
   "text57":"This edition of ELA Wallet contain the following upgrades:",
   "text58":"1. Addition of CR Council function, enabling users to view council members and their public information;",
@@ -99,6 +99,9 @@
   "text90":"6. Optimized the proposal fund withdrawal process;",
   "text91":"7. Fixed known Bugs.",
   "text92":"Notes:",
-  "text93":"-Please back up your wallet before you perform the upgrading."
+  "text93":"-Please back up your wallet before you perform the upgrading.",
+
+  "text100":"January  21，2021",
+  "text101":"Fixed known Bugs."
 
 }
