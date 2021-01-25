@@ -1160,7 +1160,6 @@ public class MyWallet {
         } catch (WalletException e) {
             return exceptionProcess(e, formatWalletName(masterWalletID, chainID) + " create vote producer tx");
         }
-        // return new CommmonStringWithiMethNameEntity(SUCCESSCODE, "", "createVoteProducerTransaction");
     }
 
     // args[0]: String masterWalletID
