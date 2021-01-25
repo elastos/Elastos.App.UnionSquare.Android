@@ -89,7 +89,7 @@ android {
         }
     }
 
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "org.elastos.unionsquare"
         resValue "string", "app_name", "ELAWallet"
