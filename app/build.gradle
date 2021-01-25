@@ -94,7 +94,7 @@ android {
         applicationId "org.elastos.unionsquare"
         resValue "string", "app_name", "ELAWallet"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode getCommitCount()
         versionName getVersionName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
