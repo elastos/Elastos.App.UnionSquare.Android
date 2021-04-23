@@ -312,6 +312,7 @@ public class SuperNodeListFragment extends BaseFragment implements BaseQuickAdap
                         }
                     case "Pending":
                     case "Canceled":
+                    case "Inactive":
                         tv_signupfor.setText(getString(R.string.electoral_affairs));
                         tv_signupfor.setVisibility(View.VISIBLE);
                         tv_signupfor.setCompoundDrawables(null, getDrawable(R.mipmap.vote_management), null, null);
