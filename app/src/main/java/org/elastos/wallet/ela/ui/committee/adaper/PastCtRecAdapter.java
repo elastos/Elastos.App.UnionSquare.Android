@@ -28,52 +28,54 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.elastos.wallet.R;
-import org.elastos.wallet.ela.db.table.Wallet;
+import org.elastos.wallet.ela.ui.committee.bean.CtDetailBean;
 import org.elastos.wallet.ela.ui.committee.bean.PastCtBean;
 import org.elastos.wallet.ela.ui.common.listener.CommonRvListener;
-import org.elastos.wallet.ela.utils.AppUtlis;
 import org.elastos.wallet.ela.utils.DateUtil;
 import org.elastos.wallet.ela.utils.SPUtil;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PastCtRecAdapter extends RecyclerView.Adapter<PastCtRecAdapter.ViewHolder>{
+public class PastCtRecAdapter extends RecyclerView.Adapter<PastCtRecAdapter.ViewHolder> {
+    private Context context;
+    private ManagerListener managerListener;
+    private CommonRvListener commonRvListener;
 
+    private List<PastCtBean.DataBean> list;
+    private String did;
+    private Map<String, CtDetailBean.DataBean> dataBeanList;
 
-    public PastCtRecAdapter(Context context, List<PastCtBean.DataBean> list, boolean isCRC, boolean isVoting) {
+    public PastCtRecAdapter(Context context, List<PastCtBean.DataBean> list, Map<String, CtDetailBean.DataBean> dataBeanList, String did) {
         this.context = context;
         this.list = list;
-        this.isCRC = isCRC;
-        this.isVoting = isVoting;
+        this.dataBeanList = dataBeanList;
+        this.did = did;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v;
-        if(i==NORMAL_ITEM) {
-            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_ct_past_normal, viewGroup, false);
-        } else {
-            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_ct_past_manager, viewGroup, false);
-        }
-        ViewHolder holder = new ViewHolder(v);
-        return holder;
+
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_ct_past_manager, viewGroup, false);
+        return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         PastCtBean.DataBean data = list.get(i);
+        CtDetailBean.DataBean dataBean = dataBeanList.get(data.getIndex() + "");
         viewHolder.time.setText(
                 String.format("%1$s — %2$s", DateUtil.formatTimestamp(data.getStartDate(), "yyyy.MM.dd"), DateUtil.formatTimestamp(data.getEndDate(), "yyyy.MM.dd")));
         String status = data.getStatus();
-        viewHolder.manager.setVisibility(View.GONE);
-        String stage =  data.getIndex() + "";
+        String stage = data.getIndex() + "";
         int Language = new SPUtil(context).getLanguage();
         if (Language != 0) {
             switch (data.getIndex()) {
@@ -91,36 +93,36 @@ public class PastCtRecAdapter extends RecyclerView.Adapter<PastCtRecAdapter.View
             }
         }
 
-        if(AppUtlis.isNullOrEmpty(status) || status.equalsIgnoreCase("HISTORY")) {
-            //往届
-            viewHolder.title.setText(String.format(context.getString(R.string.pastitemtitle), stage, ""));
-        } else if(status.equalsIgnoreCase("CURRENT")) {
+
+        if (status.equalsIgnoreCase("CURRENT")) {
             //本届
-            viewHolder.title.setText(String.format(context.getString(R.string.pastitemtitle), stage,context.getString(R.string.current)));
-            if(isCRC) {
-                //是委员且质押金大于0
-                viewHolder.manager.setText(context.getString(R.string.ctmanager));
-                viewHolder.manager.setVisibility(View.VISIBLE);
-            }
-        } else if(status.equalsIgnoreCase("VOTING")) {
+            viewHolder.title.setText(String.format(context.getString(R.string.pastitemtitle), stage, context.getString(R.string.current)));
+        } else if (status.equalsIgnoreCase("VOTING")) {
             //选举中
-            isVoting = true;
-            viewHolder.manager.setVisibility(View.VISIBLE);
-            viewHolder.manager.setText(context.getString(R.string.votemanager));
-            viewHolder.title.setText(String.format(context.getString(R.string.amember), stage));
+            viewHolder.title.setText(String.format(context.getString(R.string.pastitemtitle), stage, context.getString(R.string.voting)));
         } else {
             viewHolder.title.setText(String.format(context.getString(R.string.pastitemtitle), stage, ""));
         }
-
-        if(isVoting && i==0) {
-            viewHolder.manager.setVisibility(View.VISIBLE);
-            viewHolder.manager.setText(context.getString(R.string.votemanager));
-            viewHolder.title.setText(String.format(context.getString(R.string.pastitemtitle), stage, context.getString(R.string.voting)));
+        String type = dataBean.getType();//当前的身份  [委员: 'CouncilMember', 秘书长: 'SecretaryGeneral',未当选委员: 'UnelectedCouncilMember'其他: 'Other']
+        switch (type) {
+            case "CouncilMember":
+                viewHolder.manager.setText(context.getString(R.string.ctmanager));
+                viewHolder.rlBg.setBackgroundResource(R.drawable.ct_past_item_border);
+                viewHolder.manager.setVisibility(View.VISIBLE);
+                break;
+            case "UnelectedCouncilMember":
+                if (!"0".equals(dataBean.getDepositAmount()) || status.equalsIgnoreCase("VOTING")) {
+                    viewHolder.manager.setText(context.getString(R.string.votemanager));
+                    viewHolder.rlBg.setBackgroundResource(R.drawable.ct_past_item_border);
+                    viewHolder.manager.setVisibility(View.VISIBLE);
+                }
+                break;
         }
 
-        if(null != managerListener) {
+
+        if (null != managerListener) {
             viewHolder.manager.setOnClickListener(v ->
-                    managerListener.onManagerClick(i, isVoting?"VOTING":status)
+                    managerListener.onManagerClick(i, data, dataBean)
             );
         }
         if (commonRvListener != null) {
@@ -128,37 +130,22 @@ public class PastCtRecAdapter extends RecyclerView.Adapter<PastCtRecAdapter.View
         }
     }
 
-    private static final int NORMAL_ITEM = 0;
-    private static final int CARD_ITEM = 1;
-    @Override
-    public int getItemViewType(int position) {
-        String status = list.get(position).getStatus();
-        if(!AppUtlis.isNullOrEmpty(status)) {
-            if(isCRC && status.equalsIgnoreCase("CURRENT")) {
-                return CARD_ITEM;
-            }
-
-            if((isVoting&&(0==position)) || status.equalsIgnoreCase("VOTING")) {
-                return CARD_ITEM;
-            }
-        }
-
-        return NORMAL_ITEM;
-    }
 
     @Override
     public int getItemCount() {
-        return list==null ? 0 : list.size();
+        return list == null ? 0 : list.size();
     }
 
     public interface ManagerListener {
-        void onManagerClick(int position, String type);
+        void onManagerClick(int position, PastCtBean.DataBean data, CtDetailBean.DataBean dataBean);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.title)
         TextView title;
+        @BindView(R.id.rl_bg)
+        RelativeLayout rlBg;
         @BindView(R.id.time)
         TextView time;
         @BindView(R.id.manager_btn)
@@ -178,10 +165,5 @@ public class PastCtRecAdapter extends RecyclerView.Adapter<PastCtRecAdapter.View
         this.commonRvListener = commonRvListener;
     }
 
-    private Context context;
-    private ManagerListener managerListener;
-    private CommonRvListener commonRvListener;
-    private boolean isCRC;
-    private boolean isVoting;
-    private List<PastCtBean.DataBean> list;
+
 }

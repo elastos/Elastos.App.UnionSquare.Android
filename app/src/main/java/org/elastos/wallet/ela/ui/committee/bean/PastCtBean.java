@@ -22,6 +22,9 @@
 
 package org.elastos.wallet.ela.ui.committee.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.elastos.wallet.ela.rxjavahelp.BaseEntity;
 
 import java.util.List;
@@ -38,7 +41,7 @@ public class PastCtBean extends BaseEntity {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Parcelable {
         private String id;
         private int index;
         private long startDate;
@@ -85,5 +88,50 @@ public class PastCtBean extends BaseEntity {
         public void setStatus(String status) {
             this.status = status;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.id);
+            dest.writeInt(this.index);
+            dest.writeLong(this.startDate);
+            dest.writeLong(this.endDate);
+            dest.writeString(this.status);
+        }
+
+        public void readFromParcel(Parcel source) {
+            this.id = source.readString();
+            this.index = source.readInt();
+            this.startDate = source.readLong();
+            this.endDate = source.readLong();
+            this.status = source.readString();
+        }
+
+        public DataBean() {
+        }
+
+        protected DataBean(Parcel in) {
+            this.id = in.readString();
+            this.index = in.readInt();
+            this.startDate = in.readLong();
+            this.endDate = in.readLong();
+            this.status = in.readString();
+        }
+
+        public static final Parcelable.Creator<DataBean> CREATOR = new Parcelable.Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel source) {
+                return new DataBean(source);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
     }
 }

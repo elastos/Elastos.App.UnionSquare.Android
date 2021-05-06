@@ -30,7 +30,11 @@ android {
                 }
             }
         }
-
+        PrvNet {
+            dimension "default"
+            applicationId "org.elastos.unionsquare.prvNet"
+            resValue "string", "app_name", "ELAPrvNet"
+        }
         MainNet {
             dimension "default"
             applicationId "org.elastos.unionsquare.android"
@@ -53,11 +57,7 @@ android {
             applicationId "org.elastos.unionsquare.regtest"
             resValue "string", "app_name", "ELARegTest"
         }
-        PrvNet {
-            dimension "default"
-            applicationId "org.elastos.unionsquare.prvNet"
-            resValue "string", "app_name", "ELAPrvNet"
-        }
+
     }
 
     /*

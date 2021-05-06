@@ -29,7 +29,6 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -390,7 +389,7 @@ public class CRManageFragment extends BaseFragment implements NewBaseViewData {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(BusEvent result) {
         int integer = result.getCode();
-        if (integer == RxEnum.TRANSFERSUCESS.ordinal() && ("34".equals(result.getName())||"36".equals(result.getName()))) {
+        if (integer == RxEnum.TRANSFERSUCESS.ordinal() && ("34".equals(result.getName()) || "36".equals(result.getName()))) {
             //退出参选成功
             new DialogUtil().showTransferSucess(getBaseActivity(), new WarmPromptListener() {
                 @Override

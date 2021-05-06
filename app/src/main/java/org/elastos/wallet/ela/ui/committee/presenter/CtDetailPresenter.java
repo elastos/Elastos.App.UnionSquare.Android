@@ -48,7 +48,7 @@ public class CtDetailPresenter extends NewPresenterAbstract {
 
     public void getCouncilInfo(BaseFragment baseFragment, String id, String did) {
         Observable observable = RetrofitManager.webApiCreate().getCouncilInfo(id, did);
-        Observer observer = createObserver(baseFragment, "getCouncilInfo");
+        Observer observer = createObserver(baseFragment, "getCouncilInfo",id);
         subscriberObservable(observer, observable, baseFragment, 3);
     }
 
