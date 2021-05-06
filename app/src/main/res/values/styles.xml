@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="QMUI.Compat">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/whiter</item>
         <item name="android:textColorPrimary">#ffffff</item>
         <item name="android:textColorSecondary">#80ffffff</item>
@@ -36,7 +36,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
+    <style name="AppTheme.Splash" parent="@style/AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/commonbg</item>
+    </style>
     <style name="MyEditText" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@android:color/darker_gray</item>
         <item name="colorControlActivated">@color/maincolor</item>
