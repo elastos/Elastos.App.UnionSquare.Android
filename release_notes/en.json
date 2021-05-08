@@ -7,7 +7,7 @@
   "text7":"UI Display Optimization;",
   "text8":"Personalized icon fix for participant nodes.",
   "text9":"Official release of ELA Wallet;",
-  "text10":"Download the latest version v 1.4.9",
+  "text10":"Download the latest version v 1.4.9.1",
   "text11":"July 22, 2019",
   "text12":"Fixed bugs.",
   "text13":"Optimized Supernode profit presentation.",
@@ -108,6 +108,9 @@
   "text103":"This edition of ELA Wallet contain the following upgrades:",
   "text104":"Fixed known Bugs.",
   "text105":"Notes:",
-  "text106":"-Please back up your wallet before you perform the upgrading."
+  "text106":"-Please back up your wallet before you perform the upgrading.",
+
+  "text112":"1. Optimize wallet performance",
+  "text113":"2. Fix bugs"
 
 }
