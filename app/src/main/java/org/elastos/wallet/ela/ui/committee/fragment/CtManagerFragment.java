@@ -96,7 +96,7 @@ public class CtManagerFragment extends BaseFragment implements NewBaseViewData {
 
     @Override
     protected void initView(View view) {
-        setToobar(toolbar, toolbarTitle, (!AppUtlis.isNullOrEmpty(status) && status.equalsIgnoreCase("VOTING")) ? getContext().getString(R.string.votemanager) : getContext().getString(R.string.ctmanager));
+        setToobar(toolbar, toolbarTitle, getContext().getString(R.string.ctmanager));
         registReceiver();
         presenter = new CtManagePresenter();
         presenter.getRegisteredCRInfo(wallet.getWalletId(), MyWallet.ELA, this);
@@ -119,35 +119,13 @@ public class CtManagerFragment extends BaseFragment implements NewBaseViewData {
         depositAmount = data.getString("depositAmount");
         dpospublickey = data.getString("dpospublickey");
 
-        //当届
-        if (!AppUtlis.isNullOrEmpty(type) && type.equalsIgnoreCase("CURRENT")) {
-            //任职不正常
-            if (!AppUtlis.isNullOrEmpty(depositAmount)
-                    && !depositAmount.trim().equalsIgnoreCase("0")
-                    && (status.equalsIgnoreCase("Terminated")
-                    || status.equalsIgnoreCase("Impeached")
-                    || status.equalsIgnoreCase("Returned")
-                    || status.equalsIgnoreCase("Inactive"))) {
-                showFirstLayout();
-            } else if (status.equalsIgnoreCase("VOTING")) {
-                //未当选
-                showSecondLayout();
-            } else {
-                //任职正常
-                showSecondLayout();
-                showRefreshView();
-            }
-        } else if (!AppUtlis.isNullOrEmpty(type) && type.equalsIgnoreCase("VOTING")) {
-            //下一届也就是选举中
-            showSecondLayout();
-            showDepositView();
-        } else {
-            //历届
-            showFirstLayout();
-        }
+        showPopupView();
     }
 
-    private void showRefreshView() {
+
+
+    private void showUpdate() {
+        //当值 领取或管理节点 且能跟新信息
         refreshInfo.setVisibility(View.VISIBLE);
         refreshDid.setVisibility(View.VISIBLE);
         deposit.setVisibility(View.GONE);
@@ -158,6 +136,7 @@ public class CtManagerFragment extends BaseFragment implements NewBaseViewData {
     }
 
     private void showDepositView() {
+        //只显示提取按钮
         refreshInfo.setVisibility(View.GONE);
         tvGetdepos.setVisibility(View.GONE);
         refreshDid.setVisibility(View.GONE);
@@ -165,6 +144,7 @@ public class CtManagerFragment extends BaseFragment implements NewBaseViewData {
     }
 
     private void showGetNodeView() {
+        //只展示领取和管理节点
         refreshInfo.setVisibility(View.GONE);
         refreshDid.setVisibility(View.GONE);
         deposit.setVisibility(View.GONE);
@@ -211,25 +191,24 @@ public class CtManagerFragment extends BaseFragment implements NewBaseViewData {
                 popBackFragment();
                 break;
             case R.id.tv_deposit:
-                //fistlayout弹框里的按钮
-                showSecondLayout();
+                //fistlayout弹框里的按钮  提取质押金或者是查看详情
+                showDetail();
                 break;
         }
     }
 
 
-    private void showFirstLayout() {
+    private void showPopupView() {
         firstLayout.setVisibility(View.VISIBLE);
         secondLayout.setVisibility(View.GONE);
-        if (AppUtlis.isNullOrEmpty(status)) return;
         switch (status) {
-            case "Terminated":
+            case "Expired":
                 promptTv.setText(getString(R.string.completedialoghint));
                 break;
             case "Impeached":
                 promptTv.setText(getString(R.string.canceldialoghint));
                 break;
-            case "Returned":
+            case "Terminated":
                 promptTv.setText(getString(R.string.dimissdialoghint));
                 break;
             case "Inactive":
@@ -237,25 +216,23 @@ public class CtManagerFragment extends BaseFragment implements NewBaseViewData {
                 tvDeposit.setText(R.string.watchdetail);
                 break;
             default:
+                //任职正常
+                showDetail();
+                showUpdate();
+                break;
         }
     }
 
-    private void showSecondLayout() {
+    private void showDetail() {
         firstLayout.setVisibility(View.GONE);
         secondLayout.setVisibility(View.VISIBLE);
         nameTv.setText(name);
-        if (!AppUtlis.isNullOrEmpty(status) && status.equalsIgnoreCase("VOTING")) {
-            description.setText(R.string.votingfinishhint);
-            showDepositView();
-            return;
-        }
-
         switch (status) {
             case "Inactive":
                 description.setText(getString(R.string.inactivedialoghint) + "\n" + getString(R.string.inactiveofficehint));
                 showGetNodeView();
                 break;
-            case "Terminated":
+            case "Expired":
                 description.setText(String.format(getString(R.string.completeofficehint), depositAmount));
                 showDepositView();
                 break;
@@ -263,13 +240,13 @@ public class CtManagerFragment extends BaseFragment implements NewBaseViewData {
                 description.setText(String.format(getString(R.string.cancelofficehint), depositAmount));
                 showDepositView();
                 break;
-            case "Returned":
+            case "Terminated":
                 description.setText(String.format(getString(R.string.dimissofficehint), depositAmount));
                 showDepositView();
                 break;
             case "Elected":
                 description.setText(getString(R.string.inofficehint));
-                showRefreshView();
+                showUpdate();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + status);

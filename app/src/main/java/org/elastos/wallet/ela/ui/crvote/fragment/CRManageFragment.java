@@ -122,6 +122,8 @@ public class CRManageFragment extends BaseFragment implements NewBaseViewData {
     TextView tvIntro;
     @BindView(R.id.tv_quit)
     TextView tvQuit;
+    @BindView(R.id.tv_description)
+    TextView tvDescription;
     @BindView(R.id.ll_intro)
     LinearLayout llIntro;
     @BindView(R.id.ll_tab)
@@ -169,20 +171,28 @@ public class CRManageFragment extends BaseFragment implements NewBaseViewData {
         ownerPublicKey = info.getCROwnerPublicKey();
         CID = info.getCID();
         DID = info.getDID();
+        presenter = new CRManagePresenter();
+        String type = data.getString("type");
+        if ("CTLIST".equals(type)) {
+            //委员会列表进入
+            onCanceled(info.getNickName());
+            available = data.getString("depositAmount");
+            tvDescription.setText(R.string.votingfinishhint);
+            //注销可提取
+            sbtq.setVisibility(View.VISIBLE);
+            return;
+        }
+
+
         CRListBean.DataBean.ResultBean.CrcandidatesinfoBean curentNode = (CRListBean.DataBean.ResultBean.CrcandidatesinfoBean) data.getSerializable("curentNode");
         //curentNode只是用来展示信息
         if (curentNode == null) {
             return;
         }
-
-        presenter = new CRManagePresenter();
         //这里只会有 "Registered", "Canceled"分别代表, 已注册过, 已注销(不知道可不可提取)
-        if (crStatusBean.getStatus().equals("Canceled")) {
+        if (curentNode.getState().equals("Canceled")) {
             //已经注销了
-            setToobar(toolbar, toolbarTitle, getString(R.string.electoral_affairs));
-            ll_xggl.setVisibility(View.GONE);
-            ll_tq.setVisibility(View.VISIBLE);
-            tvQuit.setText(curentNode.getNickname() + getString(R.string.hasquit));
+            onCanceled(curentNode.getNickname() + getString(R.string.hasquit));
             long height = info.getConfirms();
             if (height >= 2160) {
                 //获取赎回金额
@@ -193,6 +203,12 @@ public class CRManageFragment extends BaseFragment implements NewBaseViewData {
             onJustRegistered(info, curentNode);
         }
         super.setExtraData(data);
+    }
+
+    private void onCanceled(String nick) {
+        ll_xggl.setVisibility(View.GONE);
+        ll_tq.setVisibility(View.VISIBLE);
+        tvQuit.setText(nick);
     }
 
     @OnClick({R.id.tv_url, R.id.sb_zx, R.id.sb_tq, R.id.sb_up, R.id.ll_info, R.id.ll_intro, R.id.tv_title_right, R.id.iv_detail, R.id.tv_did})

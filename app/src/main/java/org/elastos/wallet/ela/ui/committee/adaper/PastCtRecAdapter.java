@@ -101,14 +101,16 @@ public class PastCtRecAdapter extends RecyclerView.Adapter<PastCtRecAdapter.View
             //选举中
             viewHolder.title.setText(String.format(context.getString(R.string.pastitemtitle), stage, context.getString(R.string.voting)));
         } else {
-            viewHolder.title.setText(String.format(context.getString(R.string.pastitemtitle), stage, ""));
+            viewHolder.title.setText(String.format(context.getString(R.string.amember), stage));
         }
         String type = dataBean.getType();//当前的身份  [委员: 'CouncilMember', 秘书长: 'SecretaryGeneral',未当选委员: 'UnelectedCouncilMember'其他: 'Other']
         switch (type) {
             case "CouncilMember":
-                viewHolder.manager.setText(context.getString(R.string.ctmanager));
-                viewHolder.rlBg.setBackgroundResource(R.drawable.ct_past_item_border);
-                viewHolder.manager.setVisibility(View.VISIBLE);
+                if (!"0".equals(dataBean.getDepositAmount())||status.equalsIgnoreCase("CURRENT")  ) {
+                    viewHolder.manager.setText(context.getString(R.string.ctmanager));
+                    viewHolder.rlBg.setBackgroundResource(R.drawable.ct_past_item_border);
+                    viewHolder.manager.setVisibility(View.VISIBLE);
+                }
                 break;
             case "UnelectedCouncilMember":
                 if (!"0".equals(dataBean.getDepositAmount()) || status.equalsIgnoreCase("VOTING")) {
@@ -126,7 +128,7 @@ public class PastCtRecAdapter extends RecyclerView.Adapter<PastCtRecAdapter.View
             );
         }
         if (commonRvListener != null) {
-            viewHolder.itemView.setOnClickListener(v -> commonRvListener.onRvItemClick(i, data));
+            viewHolder.itemView.setOnClickListener(v -> commonRvListener.onRvItemClick(data.getIndex(), data));
         }
     }
 

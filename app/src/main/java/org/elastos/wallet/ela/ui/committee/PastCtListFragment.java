@@ -88,9 +88,9 @@ public class PastCtListFragment extends BaseFragment implements NewBaseViewData,
     PastCtRecAdapter adapter;
     List<PastCtBean.DataBean> pastCtDataList;
     CtManagePresenter ctManagePresenter;
-    CtDetailBean.DataBean itemCtDetail;
-    PastCtBean.DataBean itemPasrCtbean;
-
+    CtDetailBean.DataBean itemCtDetail;//点击项目的届委员信息 other（没有参选）没有详情
+    PastCtBean.DataBean itemPasrCtbean;//点击项目的届委员会状态
+    CrStatusBean crStatusBean = null;//getRegistInfo获得
     private AddDIDPresenter addDIDPresenter;
 
     private RealmUtil realmUtil = new RealmUtil();
@@ -128,7 +128,6 @@ public class PastCtListFragment extends BaseFragment implements NewBaseViewData,
         }
     }
 
-    CrStatusBean crStatusBean = null;
 
     @Override
     public void onGetData(String methodName, BaseEntity baseEntity, Object o) {
@@ -171,11 +170,19 @@ public class PastCtListFragment extends BaseFragment implements NewBaseViewData,
                         Bundle bundle = new Bundle();
                         CrStatusBean.InfoBean info = crStatusBean.getInfo();
                         if (itemPasrCtbean.getStatus().equals("VOTING")) {
-                            //只有选举中VOTING且参选UnelectedCouncilMember才会到这里
+                            //只有选举中（VOTING）的届(未当选)
                             new CRlistPresenter().getCRlist(1, 1000, "all", this, true);
+                        } else if ("UnelectedCouncilMember".equals(itemCtDetail.getType())) {
+                            //不是选举期未当选且有质押金getRegisteredCRInfo获得的一定是此届的 只有提取质押金
+                            bundle.putString("depositAmount", itemCtDetail.getDepositAmount());
+                            bundle.putParcelable("crStatusBean", crStatusBean);
+                            bundle.putParcelable("wallet", wallet);
+                            bundle.putString("type", "CTLIST");
+                            start(CRManageFragment.class, bundle);
                         } else {
+                            //本届和历届  历届只有提取质押金  委员管理  只有委员才能进来
                             bundle.putString("name", info.getNickName());
-                            bundle.putString("status", itemCtDetail.getStatus() == null ? "VOTING" : itemCtDetail.getStatus());//委员的任职状态 如果不是委员没有status 则VOTING
+                            bundle.putString("status", itemCtDetail.getStatus());
                             bundle.putString("cid", info.getCID());
                             bundle.putString("depositAmount", itemCtDetail.getDepositAmount());
                             bundle.putString("type", itemPasrCtbean.getStatus());//选中的届的状态  当前 历史 选举中
@@ -304,9 +311,9 @@ public class PastCtListFragment extends BaseFragment implements NewBaseViewData,
     }
 
     @Override
-    public void onRvItemClick(int position, Object o) {
+    public void onRvItemClick(int index, Object o) {
         Bundle bundle = new Bundle();
-        bundle.putInt("index", pastCtDataList.get(position).getIndex());
+        bundle.putInt("index", index);
         start(CtListFragment.class, bundle);
     }
 
