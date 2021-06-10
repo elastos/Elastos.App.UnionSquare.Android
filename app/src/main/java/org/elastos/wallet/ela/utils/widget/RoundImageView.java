@@ -137,6 +137,9 @@ public class RoundImageView extends AppCompatImageView {
     }
 
     private Bitmap reSizeImage(Bitmap bitmap, int newWidth, int newHeight) {
+        if (bitmap==null){
+            return null;
+        }
         try {
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
