@@ -72,7 +72,7 @@ public class FindFragment extends BaseFragment implements CommonRvListener, NewB
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://elink.elastos.net/download")));
             } catch (ActivityNotFoundException a) {
-                showToastMessage("非法地址,请联系活动发布商");
+                showToastMessage("Access error, please contact the Essentials team");
             }
         });
     }
