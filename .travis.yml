@@ -23,7 +23,7 @@ before_install:
   - export GRADLE_HOME=$PWD/gradle-6.1.1
   - export PATH=$GRADLE_HOME/bin:$PATH
   - gradle -v
-  - echo y | sdkmanager "ndk;20.0.5594570"
+  - echo y | sdkmanager "ndk;21.0.6113669"
   - echo y | sdkmanager "cmake;3.6.4111459"
   - chmod +x gradlew
 script:
@@ -45,9 +45,6 @@ deploy:
       - master
       - /(release).{7}/
       - dev
-notifications:
-  email:
-    - zhangbocheng@elastos-fusion.org
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
