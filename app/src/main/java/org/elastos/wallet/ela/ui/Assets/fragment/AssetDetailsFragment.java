@@ -203,7 +203,7 @@ public class AssetDetailsFragment extends BaseFragment implements CommonRvListen
         chainId = subWallet.getChainId();
         ////0 普通单签 1单签只读 2普通多签 3多签只读
         if (wallet.getType() < 2&&chainId.equals(MyWallet.ELA)) {
-            rbVoteStatus.setVisibility(View.VISIBLE);
+            //rbVoteStatus.setVisibility(View.VISIBLE);
         }
         tvTitle.setText(chainId);
 
@@ -215,7 +215,7 @@ public class AssetDetailsFragment extends BaseFragment implements CommonRvListen
         assetDetailPresenter = new AssetDetailPresenter();
         if (chainId.equals(MyWallet.ELA)) {
             tvChain.setText(getString(R.string.side_chain_top_up));
-            viewLine.setVisibility(View.VISIBLE);
+            //viewLine.setVisibility(View.VISIBLE);
             tvTowhole.setVisibility(View.VISIBLE);
             new CRlistPresenter().getRegisteredCRInfo(wallet.getWalletId(), MyWallet.ELA, this);
             if ("true".equals(subWallet.getFiled2())) {

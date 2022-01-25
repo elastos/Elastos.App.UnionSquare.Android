@@ -45,6 +45,7 @@ import org.elastos.wallet.ela.utils.SPUtil;
 import org.elastos.wallet.ela.utils.certificate.CertificationUtil;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 
@@ -89,6 +90,9 @@ public class MainFragment extends BaseFragment implements CommmonObjectWithMethN
             AssetskFragment assetskFragment = new AssetskFragment();
             assetskFragment.setArguments(getArguments());
             mFragments[0] = assetskFragment;
+            if (new Date().getTime() > 1648742400000L) {
+                bottombaritem1.setVisibility(View.GONE);
+            }
             mFragments[1] = FindFragment.newInstance();
             mFragments[2] = MineFragment.newInstance();
             // mFragments[3] = MineFragment.newInstance();\
@@ -125,8 +129,6 @@ public class MainFragment extends BaseFragment implements CommmonObjectWithMethN
                         bottombaritem.setBackgroundResource(R.color.black1);
                         bottombaritem1.setBackgroundResource(R.color.mainitembg);
                         bottombaritem2.setBackgroundResource(R.color.black1);
-                        FindFragment findFragment = (FindFragment) mFragments[1];
-                        findFragment.refreshView();
                         break;
                     case 2:
                         bottombaritem.setBackgroundResource(R.color.black1);

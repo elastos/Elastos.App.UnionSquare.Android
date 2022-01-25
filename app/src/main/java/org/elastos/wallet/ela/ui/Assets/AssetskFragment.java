@@ -23,6 +23,8 @@
 package org.elastos.wallet.ela.ui.Assets;
 
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -98,13 +100,10 @@ import org.elastos.wallet.ela.ui.common.listener.CommonRvListener1;
 import org.elastos.wallet.ela.ui.common.viewdata.CommmonStringWithMethNameViewData;
 import org.elastos.wallet.ela.ui.crvote.bean.CRListBean;
 import org.elastos.wallet.ela.ui.crvote.presenter.CRlistPresenter;
-import org.elastos.wallet.ela.ui.did.fragment.AuthorizationFragment;
-import org.elastos.wallet.ela.ui.did.fragment.DIDCardDetailFragment;
 import org.elastos.wallet.ela.ui.main.MainActivity;
 import org.elastos.wallet.ela.ui.mine.bean.MessageEntity;
 import org.elastos.wallet.ela.ui.mine.fragment.MessageListFragment;
 import org.elastos.wallet.ela.ui.proposal.bean.ProposalSearchEntity;
-import org.elastos.wallet.ela.ui.proposal.fragment.SuggestionsInfoFragment;
 import org.elastos.wallet.ela.ui.proposal.presenter.ProposalDetailPresenter;
 import org.elastos.wallet.ela.ui.proposal.presenter.ProposalPresenter;
 import org.elastos.wallet.ela.ui.proposal.presenter.bean.ProposalProcessPayLoad;
@@ -125,6 +124,7 @@ import org.elastos.wallet.ela.utils.QrBean;
 import org.elastos.wallet.ela.utils.RxEnum;
 import org.elastos.wallet.ela.utils.SPUtil;
 import org.elastos.wallet.ela.utils.ScanQRcodeUtil;
+import org.elastos.wallet.ela.utils.listener.NewWarmPromptCBListener;
 import org.elastos.wallet.ela.utils.listener.WarmPromptListener;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -143,8 +143,6 @@ import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 
 /**
@@ -183,6 +181,7 @@ public class AssetskFragment extends BaseFragment implements AssetsViewData, Com
     private List<CtListBean.Council> councilList;
     private long currentStartTime;
     private int voteTag = 0;//保证获得所有的其他投票后再调用后续接口
+    private SPUtil sp;
 
     @Override
     protected int getLayoutId() {
@@ -209,6 +208,8 @@ public class AssetskFragment extends BaseFragment implements AssetsViewData, Com
 
     @Override
     protected void initView(View view) {
+        sp = new SPUtil(getContext());
+        openNotic();
         srl.setOnRefreshListener(this);
         assetsPresenter = new AssetsPresenter();
         commonGetBalancePresenter = new CommonGetBalancePresenter();
@@ -226,7 +227,18 @@ public class AssetskFragment extends BaseFragment implements AssetsViewData, Com
         // assetsPresenter.getAllSubWallets(wallet.getWalletId(), this);
         registReceiver();
     }
+    private void openNotic() {
+        if (!sp.isKnowNotic()) {
+            new  DialogUtil().showCommonWarmPrompt1(getBaseActivity(), new NewWarmPromptCBListener() {
+                @Override
+                public void affireBtnClick(View view, boolean checked) {
+                    sp.setKnowNotic(checked);
+                }
+            });
+        }
 
+
+    }
     @OnClick({R.id.iv_title_left, R.id.iv_title_right, R.id.iv_add, R.id.tv_title, R.id.iv_scan})
     public void onViewClicked(View view) {
         Bundle bundle;
@@ -287,7 +299,7 @@ public class AssetskFragment extends BaseFragment implements AssetsViewData, Com
             if (!TextUtils.isEmpty(scanResult) /*&& matcherUtil.isMatcherAddr(result)*/) {
                 if (scanResult.startsWith("elastos:")) {
                     //兼容elastos:
-                    scanElastos(scanResult);
+                   // scanElastos(scanResult);
                 } else {
                     scanQrBean(scanResult);
                 }
@@ -441,6 +453,7 @@ public class AssetskFragment extends BaseFragment implements AssetsViewData, Com
         if (assetList == null || assetList.size() == 0) {
             return;
         }
+
         if (assetskAdapter == null) {
             recyclerview.setAdapter(assetskAdapter = new AssetskAdapter(getContext(), assetList));
             recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -458,6 +471,9 @@ public class AssetskFragment extends BaseFragment implements AssetsViewData, Com
     public synchronized void onGetAllSubWallets(List<SubWallet> data, int type) {
         if (data == null || data.size() == 0) {
             return;
+        }
+        if (data.size() == 2) {
+            data.remove(1);
         }
         String currentBelongId = data.get(0).getBelongId();
         List<SubWallet> assetList = listMap.get(currentBelongId);//原来的数据
@@ -1053,7 +1069,7 @@ public class AssetskFragment extends BaseFragment implements AssetsViewData, Com
     }
 
     private void showNotification(String reason, String transferTypeDes, String walleName) {
-        SPUtil sp = new SPUtil(getContext());
+         sp = new SPUtil(getContext());
         if (!sp.isOpenSendMsg()) {
             return;
         }
@@ -1262,7 +1278,7 @@ public class AssetskFragment extends BaseFragment implements AssetsViewData, Com
                 bundle.putSerializable("expires", getMyDID().getExpires(document));
                 bundle.putString("name", getMyDID().getName(document));////兼容链上没有CredentialSubjectBean的情况
                 bundle.putString("didString", document.getSubject().toString());//兼容链上没有CredentialSubjectBean的情况
-                ((BaseFragment) getParentFragment()).start(DIDCardDetailFragment.class, bundle);
+               // ((BaseFragment) getParentFragment()).start(DIDCardDetailFragment.class, bundle);
                 break;
             case "forceDIDResolve":
                 //未传递paypas网站提供的did验签
@@ -1509,7 +1525,7 @@ public class AssetskFragment extends BaseFragment implements AssetsViewData, Com
         // bundle.putString("command", command);
         bundle.putString("proposaltype", proposaltype);
         bundle.putString("scanResult", scanResult);
-        ((BaseFragment) getParentFragment()).start(SuggestionsInfoFragment.class, bundle);
+        //((BaseFragment) getParentFragment()).start(SuggestionsInfoFragment.class, bundle);
     }
 
     private void toAuthorization(String webName) {
@@ -1518,7 +1534,7 @@ public class AssetskFragment extends BaseFragment implements AssetsViewData, Com
         bundle.putString("scanResult", scanResult);
         bundle.putParcelable("wallet", wallet);
         bundle.putString("webName", webName);// 网站did的name
-        ((BaseFragment) getParentFragment()).start(AuthorizationFragment.class, bundle);
+       // ((BaseFragment) getParentFragment()).start(AuthorizationFragment.class, bundle);
     }
 
     @Override

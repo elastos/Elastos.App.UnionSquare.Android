@@ -29,6 +29,7 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.design.chip.ChipGroup;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.Display;
@@ -40,6 +41,8 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,6 +52,7 @@ import android.widget.TextView;
 
 import org.elastos.wallet.R;
 import org.elastos.wallet.ela.base.BaseActivity;
+import org.elastos.wallet.ela.utils.listener.NewWarmPromptCBListener;
 import org.elastos.wallet.ela.utils.listener.NewWarmPromptListener;
 import org.elastos.wallet.ela.utils.listener.WarmPromptListener;
 import org.elastos.wallet.ela.utils.listener.WarmPromptListener2;
@@ -491,40 +495,23 @@ public class DialogUtil {
         dialog.show();
     }
 
-    public void showCommonWarmPrompt1(BaseActivity activity, String contentStr, String textSure, String textCancel, boolean pop, NewWarmPromptListener listener) {
-        Dialog dialog = getDialogs(activity, R.layout.dialog_settingtip1);
+    public void showCommonWarmPrompt1(BaseActivity activity, NewWarmPromptCBListener listener) {
+        Dialog dialog = getDialogs(activity, R.layout.dialog_settingtip2);
+
+        CheckBox cb = dialog.findViewById(R.id.cb);
 
         ImageView ivCancel = dialog.findViewById(R.id.iv_cancel);
-        TextView tvCancel = dialog.findViewById(R.id.tv_cancel);
-        if (!TextUtils.isEmpty(textCancel)) {
-            tvCancel.setText(textCancel);
-        }
-        TextView contentTv = dialog.findViewById(R.id.tv_content);
+
         TextView tvSure = dialog.findViewById(R.id.tv_sure);
-        if (!TextUtils.isEmpty(textSure)) {
-            tvSure.setText(textSure);
-        }
-
-
-        if (!TextUtils.isEmpty(contentStr)) {
-            contentTv.setText(Html.fromHtml(contentStr));
-        }
 
         ivCancel.setOnClickListener(v -> {
-            listener.onCancel(tvCancel);
-            dialogDismiss(dialog);
-        });
 
-        tvCancel.setOnClickListener(v -> {
             dialogDismiss(dialog);
-            listener.onCancel(tvCancel);
-            if (pop)
-                activity.pop();
         });
 
         tvSure.setOnClickListener(v -> {
             dialogDismiss(dialog);
-            listener.affireBtnClick(contentTv);
+            listener.affireBtnClick(tvSure, cb.isChecked());
         });
         dialog.show();
     }

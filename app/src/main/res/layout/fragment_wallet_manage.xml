@@ -8,6 +8,7 @@
     <include layout="@layout/title" />
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_did"
         style="@style/settingItem_margin"
         android:background="@color/mainitembg"

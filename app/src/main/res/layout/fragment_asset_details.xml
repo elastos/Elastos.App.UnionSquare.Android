@@ -63,6 +63,7 @@
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:text="@string/main_chain_withdraw"
+            android:visibility="gone"
             android:textColor="#ffffffff"
             android:textSize="11sp" />
 

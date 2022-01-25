@@ -238,4 +238,15 @@ public class SPUtil {
         edit.putBoolean("openCertificate", tag);
         edit.commit();
     }
+    //是不是打开消息通知
+    public boolean isKnowNotic() {
+        return getSharedPreferences(detrust_fileName).getBoolean("isKnowNotic", false);
+    }
+
+    //设置是不是打开消息通知
+    public void setKnowNotic(boolean tag) {
+        SharedPreferences.Editor edit = getSharedPreferences(detrust_fileName).edit();
+        edit.putBoolean("isKnowNotic", tag);
+        edit.commit();
+    }
 }

@@ -57,8 +57,6 @@ import org.elastos.wallet.ela.ui.common.bean.CommmonObjEntity;
 import org.elastos.wallet.ela.ui.common.bean.CommmonStringEntity;
 import org.elastos.wallet.ela.ui.common.bean.ISubWalletListEntity;
 import org.elastos.wallet.ela.ui.common.viewdata.CommmonStringWithMethNameViewData;
-import org.elastos.wallet.ela.ui.did.fragment.AddDIDFragment;
-import org.elastos.wallet.ela.ui.did.fragment.DidDetailFragment;
 import org.elastos.wallet.ela.ui.did.presenter.AddDIDPresenter;
 import org.elastos.wallet.ela.utils.DialogUtil;
 import org.elastos.wallet.ela.utils.FileUtile;
@@ -285,7 +283,7 @@ public class WalletManageFragment extends BaseFragment implements WarmPromptList
         }
         if (integer == RxEnum.ADDPROPERTY.ordinal()) {
             //增加子钱包后
-            initDid();
+           // initDid();
         }
     }
 
@@ -372,12 +370,12 @@ public class WalletManageFragment extends BaseFragment implements WarmPromptList
                 DIDDocument doc = (DIDDocument) ((CommmonObjEntity) baseEntity).getData();
                 if (doc == null) {
                     //doc 为空  创建did
-                    start(AddDIDFragment.class, bundle1);
+                  //  start(AddDIDFragment.class, bundle1);
                 } else {
                     //展示did详情
                     try {
                         store.storeDid(doc);//存储本地
-                        start(DidDetailFragment.class, bundle1);
+                     //   start(DidDetailFragment.class, bundle1);
                     } catch (DIDStoreException e) {
                         e.printStackTrace();
                     }
@@ -388,7 +386,7 @@ public class WalletManageFragment extends BaseFragment implements WarmPromptList
                 ISubWalletListEntity subWalletListEntity = (ISubWalletListEntity) baseEntity;
                 for (SubWallet subWallet : subWalletListEntity.getData()) {
                     if (subWallet.getChainId().equals(MyWallet.IDChain)) {
-                        initDid();
+                       // initDid();
                         return;
                     }
                 }
