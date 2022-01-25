@@ -827,4 +827,11 @@
     <string name="qrcodeexp">二维码已过期</string>
     <string name="createlocalcredencial">创建本地凭证</string>
     <string name="credencialnotmatch">凭证文件不匹配</string>
+    <string name="lastnotice">ELA Wallet 是专注于支持亦来云生态数字资产安全、便捷的 SPV 轻节点客户端钱包。当前，ELA Wallet Android 和 IOS v1.5.0版本钱包已发布。此次更新修复了钱包同步过程中可能出现闪退的问题。
+\n\n同时，为整合资源，以为用户提供更友好的服务，Elastos Essentials作为亦来云生态系统的旗舰级钱包，将会在亦来云 CR 社区、DPoS 选举及 DID 等功能方面提供更加优质的体验，并将继续在集成亦来云核心技术及完善功能和服务等方面深耕。ELA Wallet 在此次更新后将仅保留基础转账功能，技术支持将于2022年Q1结束截止，建议 ELA Wallet 用户尽快迁移至Elastos Essentials。
+</string>
+    <string name="essentials_app">下载并安装/启动 Essentials APP</string>
+    <string name="iknow">我知道了</string>
+    <string name="noprompt">不再提示</string>
+    <string name="lasttip">ELA Wallet计划于2022年第一季度结束后停止维护，请用户使用Essentials</string>
 </resources>

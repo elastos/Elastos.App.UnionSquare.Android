@@ -36,7 +36,6 @@ import org.elastos.wallet.ela.db.listener.RealmTransactionAbs;
 import org.elastos.wallet.ela.db.table.Contact;
 import org.elastos.wallet.ela.ui.Assets.adapter.ChooseContactRecAdapter;
 import org.elastos.wallet.ela.ui.common.listener.CommonRvListener;
-import org.elastos.wallet.ela.ui.did.fragment.DIDCardDetailFragment;
 import org.elastos.wallet.ela.ui.mine.fragment.ContactDetailFragment;
 import org.elastos.wallet.ela.utils.Constant;
 import org.elastos.wallet.ela.utils.DialogUtil;
@@ -118,7 +117,7 @@ public class ChooseContactFragment extends BaseFragment implements CommonRvListe
                             new RealmUtil().insertContact(selectContact, new RealmTransactionAbs() {
                                 @Override
                                 public void onSuccess() {
-                                    toTargetFragment(new DIDCardDetailFragment());
+                                  //  toTargetFragment(new DIDCardDetailFragment());
                                 }
                             });
 

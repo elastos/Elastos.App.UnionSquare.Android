@@ -826,4 +826,11 @@
     <string name="qrcodeexp">QR code has expired</string>
     <string name="createlocalcredencial">Create Local Credentials</string>
     <string name="credencialnotmatch">The credential file do not match</string>
+    <string name="lastnotice">ELA Wallet is a user-friendly and secure SPV light node client wallet that supports Elastos ecosystem digital assets. ELA Wallet v1.5.0 has been released for Android and iOS v1.5.0. In this update, a fix has been added for a flashback issue that occurred during wallet synchronization.
+\n\nIn order to better allocate resources and provide a superior user experience, core development teams responsible for Elastos Essentials, the flagship wallet of the Elastos ecosystem, will be focusing on expanding and enhancing the functionality of the CR Community, DPoS Election, and DID Capsules. The development teams will also continue to work toward integrating Elastos core technologies and improving their functions and services.
+\n\nAs such, following this upgrade, ELA Wallet will only retain the basic transfer functions. Technical support for ELA Wallet will conclude at the completion of Q1 2022. ELA Wallet users are advised to migrate to Elastos Essentials as soon as possible.</string>
+    <string name="essentials_app">Download / Launch Essentials APP</string>
+    <string name="iknow">I got it</string>
+    <string name="noprompt">Don’t prompt again</string>
+    <string name="lasttip">ELA wallet plans to stop maintenance after the end of the first quarter of 2022. Please use Essentials</string>
 </resources>
