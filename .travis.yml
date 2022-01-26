@@ -28,23 +28,6 @@ before_install:
   - chmod +x gradlew
 script:
   - ./gradlew assembleMainNetAlpha
-  - ./gradlew assembleTestNet
-  - ./gradlew assembleRegTest
-  - ./gradlew assemblePrvNet
-deploy:
-  provider: releases
-  api_key: $GIT_TOKEN
-  file_glob: true
-  file:
-    - app/build/outputs/apk/**/debug/*.apk
-  skip_cleanup: true
-  prerelease: true
-  on:
-    tags: true
-    branches:
-      - master
-      - /(release).{7}/
-      - dev
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
