@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Elastos Foundation
+ * Copyright (c) 2022 Gelaxy Team
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -56,7 +56,7 @@ public class Copyright {
         // 从文件读取版权内容
         // 在D盘创建一个copyright.txt文件,
         String copyright = "/*\n" +
-                " * Copyright (c) 2019 Elastos Foundation\n" +
+                " * Copyright (c) 2022 Gelaxy Team\n" +
                 " *\n" +
                 " * Permission is hereby granted, free of charge, to any person obtaining a copy\n" +
                 " * of this software and associated documentation files (the \"Software\"), to deal\n" +
