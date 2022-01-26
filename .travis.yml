@@ -18,9 +18,9 @@ licenses:
   - android-sdk-license-.+
   - google-gdk-license-.+
 before_install:
-  - wget https://services.gradle.org/distributions/gradle-6.1.1-bin.zip
-  - unzip -qq gradle-6.1.1-bin.zip
-  - export GRADLE_HOME=$PWD/gradle-6.1.1
+  - wget https://services.gradle.org/distributions/gradle-6.5-bin.zip
+  - unzip -qq gradle-6.5-bin.zip
+  - export GRADLE_HOME=$PWD/gradle-6.5
   - export PATH=$GRADLE_HOME/bin:$PATH
   - gradle -v
   - echo y | sdkmanager "ndk;21.0.6113669"
