@@ -45,7 +45,7 @@ public class Constant {
     public static final String WITHDRAWSUPERNODE = "withdrawsupernode";//超级节点提取
     public static final String WITHDRAWCR = "withdrawcr";//cr提取
     public static final String Email = "elawallet@gelaxy.io";
-    public static final String UpdateLog = "https://download.elastos.org/app/release-notes/ela-wallet/index.html";
+    public static final String UpdateLog = "https://download.elastos.io/app/release-notes/ela-wallet/index.html";
     public static final String FRAGMENTTAG = "commonwebview";
     public static final int CREATEREADONLY = 0x1;//打开创建单签只读钱包页面
     public static final int CREATEMUL = 0x2;//打开创建多签钱包页面 已经打开了的情况直接填入
