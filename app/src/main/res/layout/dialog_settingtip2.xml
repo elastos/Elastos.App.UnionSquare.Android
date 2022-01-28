@@ -18,7 +18,7 @@
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="220dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="13dp"
         android:gravity="center"

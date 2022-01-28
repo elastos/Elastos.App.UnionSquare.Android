@@ -833,5 +833,5 @@
     <string name="essentials_app">下载并安装/启动 Essentials APP</string>
     <string name="iknow">我知道了</string>
     <string name="noprompt">不再提示</string>
-    <string name="lasttip">ELA Wallet计划于2022年第一季度结束后停止维护，请用户使用Essentials</string>
+    <string name="lasttip">当前版本是 Ela Wallet v1.5.0版，本版仅保留亦来云主链的资产管理功能，更多功能请使用 Essentials App</string>
 </resources>
