@@ -32,6 +32,7 @@ import android.support.annotation.NonNull;
 import android.support.design.chip.ChipGroup;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -503,7 +504,8 @@ public class DialogUtil {
         ImageView ivCancel = dialog.findViewById(R.id.iv_cancel);
 
         TextView tvSure = dialog.findViewById(R.id.tv_sure);
-
+        TextView contentTv = dialog.findViewById(R.id.tv_content);
+        contentTv.setMovementMethod(ScrollingMovementMethod.getInstance());
         ivCancel.setOnClickListener(v -> {
 
             dialogDismiss(dialog);
