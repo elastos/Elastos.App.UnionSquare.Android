@@ -115,7 +115,7 @@ public class MnemonicWordFragment extends BaseFragment implements GenerateMnemon
             }
         });
 
-        String type = (1 == new SPUtil(getContext()).getLanguage()) ? "english" : "chinese";
+        String type = (1 == new SPUtil(getContext()).getLanguage()) ? "english" : "ChineseSimplified";
         //创建助记词
         new GenerateMnemonicPresenter().generateMnemonic(type, this);
 
