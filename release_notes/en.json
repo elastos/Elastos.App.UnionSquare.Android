@@ -102,15 +102,18 @@
   "text93":"-Please back up your wallet before you perform the upgrading.",
 
   "text100":"January  21，2021",
-  "text101":"Fixed known Bugs.",
+  "text101":"Fixed known Bugs;",
 
   "text102":"February  25，2021",
   "text103":"This edition of ELA Wallet contain the following upgrades:",
-  "text104":"Fixed known Bugs.",
+  "text104":"Fixed known Bugs;",
   "text105":"Notes:",
   "text106":"-Please back up your wallet before you perform the upgrading.",
 
   "text112":"1. Optimize wallet performance",
-  "text113":"2. Fix bugs"
+  "text113":"2. Fix bugs",
+
+  "text120":"Removed community section;",
+  "text121":"Cancelled support for the DID Sidechain and related functions;"
 
 }
