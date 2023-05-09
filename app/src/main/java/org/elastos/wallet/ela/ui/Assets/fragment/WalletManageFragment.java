@@ -404,7 +404,7 @@ public class WalletManageFragment extends BaseFragment implements WarmPromptList
                     requestPubKey = pubKeyInfoJsonData.getString("xPubKey");
 
                 } else {
-                    requestPubKey = pubKeyInfoJsonData.getString("xPubKeyHDPM");
+                    requestPubKey = pubKeyInfoJsonData.getString("xPubKey");
                 }
                 if (!TextUtils.isEmpty(requestPubKey)) {
                     Bundle bundle = new Bundle();

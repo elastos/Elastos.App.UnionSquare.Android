@@ -116,7 +116,7 @@ public class ShowMulWallletPublicKeyFragment extends BaseFragment implements New
                 requestPubKey = jsonData.getString("xPubKey");
 
             } else {
-                requestPubKey = jsonData.getString("xPubKeyHDPM");
+                requestPubKey = jsonData.getString("xPubKey");
             }
             if (!TextUtils.isEmpty(requestPubKey)) {
                 llCurrentpk.setVisibility(View.VISIBLE);
